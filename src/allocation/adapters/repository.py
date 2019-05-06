@@ -18,7 +18,7 @@ class AbstractRepository(abc.ABC):
         return p
 
     @abc.abstractmethod
-    def _get(self, sku):
+    def _get(self, reference):
         raise NotImplementedError
 
 
@@ -41,3 +41,6 @@ class DjangoRepository(AbstractRepository):
         return self.django_models.Batch.objects.filter(
             reference=reference
         ).first().to_domain()
+
+    def list(self):
+        return [b.to_domain() for b in self.django_models.Batch.objects.all()]
