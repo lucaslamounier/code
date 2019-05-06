@@ -1,3 +1,4 @@
+# pylint: disable=no-member, no-self-use
 from typing import Set
 import abc
 from allocation.domain import model

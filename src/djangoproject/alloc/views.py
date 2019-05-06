@@ -20,7 +20,7 @@ def add_batch(request):
         eta = datetime.fromisoformat(eta).date()
     services.add_batch(
         data['ref'], data['sku'], data['qty'], eta,
-        unit_of_work.start
+        unit_of_work.DjangoUnitOfWork(),
     )
     return HttpResponse('OK', status=201)
 
@@ -32,9 +32,9 @@ def allocate(request):
             data['orderid'],
             data['sku'],
             data['qty'],
-            unit_of_work.start
+            unit_of_work.DjangoUnitOfWork(),
         )
     except (model.OutOfStock, services.InvalidSku) as e:
         return JsonResponse({'message': str(e)}, status=400)
 
-    return JsonResponse({'batchref': batchref}, status=400)
+    return JsonResponse({'batchref': batchref}, status=201)
